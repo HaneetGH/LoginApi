@@ -23,7 +23,7 @@ router.get('/login', function (req, res, next) {
             userMasterName: req.body.PrimaryEmail
         }
     }).then(function (userCompany) {
-        if (userCompany) {// si el usuario es de tipo User COmpany
+        if (userCompany) {//
 
             if (/*userCompany.userMasterPass === password*/bcrypt.compareSync(password, userCompany.userMasterPass)) {
                 user = userCompany;
