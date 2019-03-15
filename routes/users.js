@@ -13,6 +13,8 @@ HMAC_KEY = crypto.randomBytes(32);
 var key = 'password';
 var text = 'I love kittens';
 /* GET users listing. */
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 router.get('/login', function (req, res, next) {
 
     var password = req.body.password;
@@ -22,7 +24,8 @@ router.get('/login', function (req, res, next) {
         }
     }).then(function (userCompany) {
         if (userCompany) {// si el usuario es de tipo User COmpany
-            if (userCompany.userMasterPass === password) {
+
+            if (/*userCompany.userMasterPass === password*/bcrypt.compareSync(password, userCompany.userMasterPass)) {
                 user = userCompany;
                 var data = {
                     data_user: user,
@@ -32,7 +35,11 @@ router.get('/login', function (req, res, next) {
                 var json = validartion.createToken(data, user.PrimaryEmail, "en");
                 res.send(json);
             } else {
-                res.status(202).send("errors.failedLogin");
+                resp = {
+                    success: false,
+                    message: 'Wrong Password',
+                };
+                res.status(202).send(resp);
             }
         }
 
@@ -52,21 +59,35 @@ router.get('/fetch', function (req, res, next) {
 
 });
 router.get('/create', function (req, res, next) {
-    var IV = new Buffer(crypto.randomBytes(16));
-    var cipher = crypto.createCipheriv(ALGORITHM, KEY, IV);
-    var encrypted = cipher.update(req.body.password, 'utf8', 'hex') + cipher.final('hex');
-    modelUser.findOrCreate({
-        where: {//object containing fields to found
-            userMasterName: req.body.PrimaryEmail,
-            userMasterPass: encrypted
-        },
+    bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+        // Store hash in your password DB.
 
-    }).error(function (err) {//error handling
-        res.send("FUck");
-    }).then(function () {//run your calllback here
-        res.send("callback!!");
+        if (hash) {
+            modelUser.findOrCreate({
+                where: {//object containing fields to found
+                    userMasterName: req.body.PrimaryEmail,
+                    userMasterPass: hash
+                },
+
+            }).error(function (err) {//error handling
+                resp = {
+                    success: false,
+                    message: 'Already a member',
+                };
+                    res.send(resp);
+
+                }
+            ).then(function () {//run your calllback here
+                resp = {
+                    success: true,
+                    message: 'Welcome to the party',
+                };
+                res.send(resp)
+            });
+
+        } else res.send("Failed, Try Again");
+
+
     });
-
-
 });
 module.exports = router;
