@@ -73,7 +73,17 @@ router.get('/comment', function (req, res, next) {
 
                     user_id: req.body.userid,
                     threadmaster_id: user.dataValues.id
-                }, {transaction: t});
+                }, {transaction: t}).then(user => {
+
+
+                    const job = queue.createJob({id: user.dataValues.id})
+                    job.save();
+                    job.on('succeeded', (result) => {
+                        console.log(`Received result for job ${job.id}: ${result}`);
+                    });
+
+                });
+                ;
             });
 
         }).then(result => {
