@@ -21,7 +21,7 @@
     "mysql2": "^1.6.5",
     "node-rest-client": "^3.1.0",
     "pug": "2.0.0-beta11",
-    "sequelize": "^5.3.0",
+    "sequelize": ">=5.3.0"
     "tedious": "^5.0.3",
     "xmldoc": "^1.1.2"
   }
