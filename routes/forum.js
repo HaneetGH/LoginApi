@@ -6,8 +6,8 @@ var commenRelationtthread = require("../model/CommentThreadRelationMaster");
 var threadusermaster = require("../model/ThreadUserMaster");
 var validartion = require("../config/validation");
 var connectionMysql = require("../config/configMySQL");
-const Queue = require('bee-queue');
-const queue = new Queue('example');
+
+
 router.get('/create', function (req, res, next) {
 
     if (validartion.isAllowed(req, res, next)) {
@@ -76,11 +76,11 @@ router.get('/comment', function (req, res, next) {
                 }, {transaction: t}).then(user => {
 
 
-                    const job = queue.createJob({id: user.dataValues.id})
+                   /* const job = queue.createJob({id: user.dataValues.id})
                     job.save();
                     job.on('succeeded', (result) => {
                         console.log(`Received result for job ${job.id}: ${result}`);
-                    });
+                    });*/
 
                 });
                 ;

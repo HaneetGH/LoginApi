@@ -10,7 +10,7 @@ var modelThreadUserMaster = connectionMysql.define('commentmaster', {
 
         }
     },thread_id: {
-        type: Sequelize.STRING8,
+        type: Sequelize.STRING,
         allowNull: false,
         validate: {
 

@@ -10,7 +10,7 @@ var modelCommentUserMaster = connectionMysql.define('usertotalcommentmaster', {
 
         }
     },user_id: {
-        type: Sequelize.STRING8,
+        type: Sequelize.STRING,
         allowNull: false,
         validate: {
 

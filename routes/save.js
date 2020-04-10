@@ -4,8 +4,7 @@ var userCommentTotal = require("../model/TotalUserCommentMaster");
 var threadusermaster = require("../model/ThreadUserMaster");
 var validartion = require("../config/validation");
 var connectionMysql = require("../config/configMySQL");
-const Queue = require('bee-queue');
-const queue = new Queue('example');
+
 
 
 function upsert(condition) {
@@ -53,7 +52,7 @@ function upsert(condition) {
 }
 
 router.get(function (req, res, next) {
-    queue.process(async (job) => {
+  /*  queue.process(async (job) => {
         job.on('succeeded', (result) => {
             upsert({user_id: job.data.id}).then(function (result) {
                 res.status(200).send({success: true});
@@ -61,7 +60,7 @@ router.get(function (req, res, next) {
 
             console.log(`Received result for job ${job.id}: ${result}`);
         });
-    });
+    });*/
 });
 
 
