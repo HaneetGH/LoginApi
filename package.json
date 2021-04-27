@@ -20,7 +20,7 @@
     "mysql2": "^1.6.5",
     "node-rest-client": "^3.1.0",
     "pug": "^2.0.4",
-    "redis": "^3.0.2",
+    "redis": "^3.1.1",
     "sequelize": "5.21.6",
     "tedious": "^5.0.3",
     "xmldoc": "^1.1.2"
